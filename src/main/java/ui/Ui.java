@@ -30,6 +30,17 @@ public class Ui {
     private static final String WHO_KILLED_YOU = "Who do you think killed you?";
     private static final String CORRECT_ANSWER = "Correct answer";
     private static final String WRONG_ANSWER = "Wrong answer";
+    private static final String HELP_COMMAND_INDICATOR = "Enter /help to view all commands available.";
+    private static final String INVALID_INPUT_GIVEN = "Invalid input! Type '/help' to see the available commands.";
+    private static final String INVALID_NUMBER_SUSPECT =
+            "Invalid number! To select a suspect, please input its corresponding number.";
+    private static final String INVALID_NUMBER_CLUE =
+            "Invalid number! To select a clue, please input its corresponding number.";
+    private static final String HELP_COMMAND = "/help";
+    private static final String EXIT_COMMAND = "/exit";
+    private static final String NEXT_COMMAND = "/next";
+    private static final String ASK_FOR_CLUE_OR_SUSPECT_NUMBER =
+            "To investigate suspects or clues, please input their corresponding number.";
 
     private Scanner scanner;
 
@@ -63,10 +74,10 @@ public class Ui {
 
     public void printListOfCommands() {
         System.out.println(LIST_OF_COMMAND_AVAILABLE_MESSAGE);
-        System.out.println("/help");
-        System.out.println("/exit");
-        System.out.println("/next");
-        System.out.println("To investigate suspects or clues, please input their corresponding number.");
+        System.out.println(HELP_COMMAND);
+        System.out.println(EXIT_COMMAND);
+        System.out.println(NEXT_COMMAND);
+        System.out.println(ASK_FOR_CLUE_OR_SUSPECT_NUMBER);
         System.out.println();
     }
 
@@ -76,17 +87,6 @@ public class Ui {
             System.out.println((i + 1) + ". " + clue.getClueName().trim());
             i++;
         }
-    }
-
-    public void printNotesMessage() {
-        System.out.println(LIST_OF_NOTES_MESSAGE);
-        System.out.println("1. This is a place holder");
-    }
-
-    public void getClue(int clueNumber) {
-        String str = "this is a clue placeholder";
-        System.out.println("Clue number " + clueNumber
-                + " " + str);
     }
 
     public void printSuspects(SuspectList suspects) {
@@ -110,19 +110,19 @@ public class Ui {
     }
 
     public void printInvalidClueMessage() {
-        System.out.println("Invalid number! To select a clue, please input its corresponding number.");
+        System.out.println(INVALID_NUMBER_CLUE);
     }
 
     public void printInvalidSuspectMessage() {
-        System.out.println("Invalid number! To select a suspect, please input its corresponding number.");
+        System.out.println(INVALID_NUMBER_SUSPECT);
     }
 
     public void printInvalidCommandMessage() {
-        System.out.println("Invalid input! Type '/help' to see the available commands.");
+        System.out.println(INVALID_INPUT_GIVEN);
     }
 
     public void printHelpCommandIndicator() {
         System.out.println();
-        System.out.println("Enter /help to view all commands available.");
+        System.out.println(HELP_COMMAND_INDICATOR);
     }
 }
