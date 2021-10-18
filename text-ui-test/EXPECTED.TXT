@@ -4,4 +4,6 @@ File not found for scene
 Scene 1 Investigation
 Who do you want to investigate?
 1. Father
+
+Enter /help to view all commands available.
 Goodbye.
