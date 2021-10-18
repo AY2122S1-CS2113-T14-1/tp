@@ -67,6 +67,7 @@ public class Ui {
         System.out.println("/exit");
         System.out.println("/next");
         System.out.println("To investigate suspects or clues, please input their corresponding number.");
+        System.out.println();
     }
 
     public void printListOfClues(ArrayList<Clue> clues) {
@@ -118,5 +119,10 @@ public class Ui {
 
     public void printInvalidCommandMessage() {
         System.out.println("Invalid input! Type '/help' to see the available commands.");
+    }
+
+    public void printHelpCommandIndicator() {
+        System.out.println();
+        System.out.println("Enter /help to view all commands available.");
     }
 }

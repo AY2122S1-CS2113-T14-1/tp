@@ -52,6 +52,7 @@ public class Investigation {
             Suspect suspect = currentScene.investigateSuspect(currentSuspect);
             ui.printListOfClues(suspect.getClues());
         }
+        ui.printHelpCommandIndicator();
     }
 
 
