@@ -19,3 +19,9 @@ MANIFEST.MF
 
 # Ignore GameData.txt
 /data/GameData.txt
+
+# Ignore notes.txt
+/data/notes.txt
+
+# Ignore clueTracker.txt
+/data/clueTracker.txt
