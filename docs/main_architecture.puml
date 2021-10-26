@@ -2,17 +2,31 @@
 'https://plantuml.com/sequence-diagram
 
 autonumber
+actor User
 
-User -> Duke: "/next"
-Duke -> Ui: readUserInput()
-Duke <- Ui: userInput
-Duke -> Command: new Command()
-Duke <- Command: CommandFromUser
-Duke -> Parser: getCommandFromUser(userInput)
-Duke <- Parser: CommandFromUser
-Duke -> Command: execute()
-Command -> Investigation: runScene()
-Duke -> Command: exit()
-User <- Duke
+User -> ":Duke": "/next"
+activate ":Duke"
+":Duke" -> ":Ui": readUserInput()
+activate ":Ui"
+":Duke" <-- ":Ui": userInput
+deactivate ":Ui"
+":Duke" -> ":Parser": getCommandFromUser(userInput)
+activate ":Parser"
+":Parser" -> ":Command": new Command()
+activate ":Command"
+":Parser" <-- ":Command": Command
+deactivate ":Command"
+":Duke" <-- ":Parser": CommandFromUser
+deactivate ":Parser"
+":Duke" -> ":Command": execute(ui,investigation,sceneList)
+activate ":Command"
+":Duke" <-- ":Command"
+deactivate ":Command"
+":Duke" -> ":Command": exit()
+activate ":Command"
+":Duke" <-- ":Command"
+deactivate ":Command"
+User <-- ":Duke"
+deactivate ":Duke"
 
 @enduml
