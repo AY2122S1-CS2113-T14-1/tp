@@ -116,8 +116,11 @@ public class Ui {
             }
         }
     }
-
+    public void printCorruptedFileMessage() {
+        System.out.println("Please do not mess with the data file");
+    }
     public void printCurrentInvestigation(Investigation investigation, SceneList sceneList) {
+
         if (investigation.getStage() == InvestigationStages.SUSPECT_STAGE) {
             this.printCurrentSuspectPage(sceneList);
         } else {

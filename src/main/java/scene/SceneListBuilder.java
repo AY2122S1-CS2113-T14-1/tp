@@ -1,5 +1,7 @@
 package scene;
 
+import exception.DukeCorruptedFileException;
+import exception.DukeFileNotFoundException;
 import exceptions.MissingSceneFileException;
 import scene.narrative.Narrative;
 import storage.GameDataFileDecoder;
@@ -21,7 +23,7 @@ public class SceneListBuilder {
      * @return Scene list containing the game data read from file.
      * @throws MissingSceneFileException If scene file is missing.
      */
-    public static SceneList buildSceneList(GameDataFileDecoder dataFile) throws MissingSceneFileException {
+    public static SceneList buildSceneList(GameDataFileDecoder dataFile) throws MissingSceneFileException, DukeCorruptedFileException, DukeFileNotFoundException {
         Scene[] scenes;
         try {
             scenes = getScenesFromFile();

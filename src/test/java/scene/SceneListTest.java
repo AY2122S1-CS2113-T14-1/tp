@@ -1,5 +1,7 @@
 package scene;
 
+import exception.DukeCorruptedFileException;
+import exception.DukeFileNotFoundException;
 import org.junit.jupiter.api.Test;
 import storage.GameDataFileDecoder;
 import storage.GameDataFileManager;
@@ -38,9 +40,9 @@ public class SceneListTest {
     }*/
 
     @Test
-    public void scene2Test() throws FileNotFoundException {
+    public void scene2Test() throws FileNotFoundException, DukeCorruptedFileException, DukeFileNotFoundException {
         Ui ui = new Ui();
-        GameDataFileDecoder datafile = new GameDataFileDecoder(ui,new GameDataFileManager("GameData.txt"));
+        GameDataFileDecoder datafile = new GameDataFileDecoder("GameData.txt");
 
         datafile.setCurrentSceneIndex(0);
         SceneList sceneList = SceneListBuilder.buildSceneList(datafile);

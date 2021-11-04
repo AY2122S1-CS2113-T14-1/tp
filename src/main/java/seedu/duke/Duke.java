@@ -1,5 +1,7 @@
 package seedu.duke;
 
+import exception.DukeCorruptedFileException;
+import exception.DukeFileNotFoundException;
 import scene.clue.CheckedClueTrackerBuilder;
 import command.InvalidCommand;
 import exceptions.InvalidInputException;
@@ -29,7 +31,7 @@ public class Duke {
     private static GameDataFileDecoder dataFile;
     private static SceneList sceneList;
     private static SuspectList clueTracker;
-    private static final String GAME_DATA_FILE_NAME = "GameData.txt";
+    private static final String GAME_DATA_FILE_NAME = "data.txt";
     private static NoteList notes;
 
     public static void initializeGame() {
@@ -40,19 +42,23 @@ public class Duke {
         ui = new Ui();
         ui.printWelcomeMessage();
 
-        dataFile = new GameDataFileDecoder(ui, new GameDataFileManager(GAME_DATA_FILE_NAME));
-
         try {
+            dataFile = new GameDataFileDecoder(GAME_DATA_FILE_NAME);
             sceneList = SceneListBuilder.buildSceneList(dataFile);
             clueTracker = CheckedClueTrackerBuilder.buildClueTracker();
+            investigation = new Investigation(clueTracker);
+            sceneList.runCurrentScene();
         } catch (MissingSceneFileException e) {
             ui.printMissingSceneFileMessage();
+        } catch (DukeFileNotFoundException e) {
+            ui.printFileErrorMessage();
+        } catch (DukeCorruptedFileException e) {
+            ui.printCorruptedFileMessage();
         }
-        investigation = new Investigation(clueTracker);
-        sceneList.runCurrentScene();
+
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         initializeGame();
         runUntilExitCommand();
     }
@@ -60,22 +66,25 @@ public class Duke {
     private static void runUntilExitCommand() {
         boolean isExit = false;
         while (!isExit) {
-            ui.printCurrentInvestigation(investigation, sceneList);
-            String userInput = ui.readUserInput();
-            Command commandFromUser = new InvalidCommand();
             try {
+                ui.printCurrentInvestigation(investigation, sceneList);
+                String userInput = ui.readUserInput();
+                Command commandFromUser = new InvalidCommand();
                 commandFromUser = parser.getCommandFromUser(userInput);
                 commandFromUser.execute(ui, investigation, sceneList);
+                isExit = commandFromUser.exit();
             } catch (InvalidSuspectException e1) {
                 ui.printInvalidSuspectMessage();
             } catch (InvalidClueException e2) {
                 ui.printInvalidClueMessage();
-            } catch (InvalidInputException e3) {
+            } catch (InvalidInputException | NumberFormatException e3) {
                 ui.printInvalidCommandMessage();
-            } catch (NumberFormatException e) {
-                ui.printInvalidCommandMessage();
+            } catch (DukeCorruptedFileException e) {
+                ui.printCorruptedFileMessage();
+            } catch (DukeFileNotFoundException | NullPointerException e) {
+                ui.printCorruptedFileMessage();
+                isExit = true;
             }
-            isExit = commandFromUser.exit();
         }
     }
 }

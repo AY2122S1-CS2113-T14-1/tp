@@ -1,5 +1,7 @@
 package command;
 
+import exception.DukeCorruptedFileException;
+import exception.DukeFileNotFoundException;
 import investigation.Investigation;
 import scene.SceneList;
 import scene.SceneTypes;
@@ -9,7 +11,7 @@ public class NextCommand extends Command {
     private boolean hasCompleted = false;
 
     @Override
-    public void execute(Ui ui, Investigation investigation, SceneList sceneList) {
+    public void execute(Ui ui, Investigation investigation, SceneList sceneList) throws DukeCorruptedFileException, DukeFileNotFoundException {
         SceneTypes sceneType = sceneList.getCurrentSceneType();
         switch (sceneType) {
         case CORRECT_KILLER_SCENE:

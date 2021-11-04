@@ -1,52 +1,39 @@
 package storage;
 
-import ui.Ui;
+import exception.DukeCorruptedFileException;
+import exception.DukeFileNotFoundException;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-public class GameDataFileDecoder {
-
+public class GameDataFileDecoder extends GameDataFileManager {
     private static final int MAX_SCENE_NUMBER = 3;
-    GameDataFileManager dataFile;
-    ArrayList<String> lines;
-    Ui ui;
-    int currentSceneIndex;
+    String factorySetting = "The Great Detective Data File\nCurrentSceneIndex: ";
 
-    public GameDataFileDecoder(Ui ui, GameDataFileManager dataFile) {
-        this.dataFile = dataFile;
-        this.ui = ui;
+    public GameDataFileDecoder(String fileName) throws DukeFileNotFoundException, DukeCorruptedFileException {
+        super(fileName);
+    }
+    public void setCurrentSceneIndex(int index) throws DukeFileNotFoundException {
+        this.writeFile(factorySetting + index);
+    }
+
+    public int getCurrentSceneIndex() throws DukeFileNotFoundException {
+        int currentSceneIndex = 0;
         try {
-            dataFile.checkPath();
-            this.lines = dataFile.readFile();
-            if (this.lines.size() == 0 || !this.lines.get(0).equals("The Great Detective Data File")
-                    || currentSceneIndex > MAX_SCENE_NUMBER) {
-                setCurrentSceneIndex(0);
-                this.lines = dataFile.readFile();
-                this.currentSceneIndex = getCurrentSceneIndex();
-                assert lines.size() != 0;
+            if (isValidFile()) {
+                String lines = this.readFile();
+                currentSceneIndex = Integer.parseInt(lines.substring(factorySetting.length()));
+                if (currentSceneIndex <= MAX_SCENE_NUMBER) {
+                    return currentSceneIndex;
+                }
             }
-        } catch (IOException e) {
-            ui.printFileErrorMessage();
+        } catch (DukeCorruptedFileException e) {
+            setCurrentSceneIndex(0);
         }
+        setCurrentSceneIndex(0);
+        return 0;
     }
 
-    public int getCurrentSceneIndex() {
-        this.currentSceneIndex = Integer.parseInt(this.lines.get(1).substring(19));
-        return currentSceneIndex;
+    public boolean isValidFile() throws DukeCorruptedFileException, DukeFileNotFoundException {
+        String lines = this.readFile();
+        return lines.contains("The Great Detective Data File");
     }
 
-    public void setCurrentSceneIndex(int index) {
-        ArrayList<String> factorySetting = new ArrayList<>();
-        factorySetting.add("The Great Detective Data File");
-        factorySetting.add("CurrentSceneIndex: " + index);
-        try {
-            dataFile.rewriteFile(factorySetting);
-            this.lines = dataFile.readFile();
-            this.currentSceneIndex = getCurrentSceneIndex();
-            assert lines.size() != 0;
-        } catch (IOException e) {
-            ui.printFileErrorMessage();
-        }
-    }
 }

@@ -1,5 +1,7 @@
 package command;
 
+import exception.DukeCorruptedFileException;
+import exception.DukeFileNotFoundException;
 import exceptions.InvalidInputException;
 import exceptions.InvalidSuspectException;
 import investigation.Investigation;
@@ -70,7 +72,7 @@ public class InvestigateCommand extends Command {
     }
 
     @Override
-    public void execute(Ui ui, Investigation investigation, SceneList sceneList) throws InvalidInputException {
+    public void execute(Ui ui, Investigation investigation, SceneList sceneList) throws InvalidInputException, DukeCorruptedFileException, DukeFileNotFoundException {
         suspectNameGiven();
         SceneTypes sceneType = sceneList.getCurrentSceneType();
 
