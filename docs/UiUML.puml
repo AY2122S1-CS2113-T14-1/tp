@@ -2,6 +2,7 @@
 'https://plantuml.com/sequence-diagram
 
 autonumber
+hide footbox
 
  ->Ui:
 Ui --> Clue:getClueName()

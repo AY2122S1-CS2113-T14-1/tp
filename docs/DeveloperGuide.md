@@ -102,7 +102,7 @@ How the ui work
 - Print messages to terminal depending on the scene.
 - Print corresponding output to terminal according to input command.
 
-[UML diagram for Ui](./UiUML.png)
+![UML diagram for Ui](./UiUML.png)
 
 ### Command component
 **API:** `Command.java` 
